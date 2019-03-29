@@ -47,7 +47,11 @@ const tripSchema = new Schema({
     type: String,
     require: true
   },
+  participants: {
+    type: [ObjectId],
+    ref: 'User',
 
+  }
 }, {
     timestamps: {
       createdAt: 'created_at',

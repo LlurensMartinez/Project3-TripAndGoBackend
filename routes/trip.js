@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+var mongoose = require('mongoose');
 const Trip = require('../models/Trip');
 
 const { isLoggedIn } = require('../helpers/middlewares');
@@ -121,6 +121,21 @@ router.put('/:id/edit', async (req, res, next) => {
     const updateTripCreated = await Trip.findByIdAndUpdate(id, updateTrip, {new:true});
     res.status(200)
     res.json({message: 'Viaje editado'})
+    // newTripCreated.save();
+  } catch (error) {
+    next(error)
+  }
+});
+
+router.put('/:id/join', async (req, res, next) => {
+  const { id } = req.params;
+  var idUser = mongoose.Types.ObjectId(req.session.currentUser._id);
+
+
+  try {
+    const updateTripCreated = await Trip.findByIdAndUpdate(id,{$push: {participants: idUser}}, {new:true});
+    res.status(200)
+    res.json({message: 'Usuario unido'})
     // newTripCreated.save();
   } catch (error) {
     next(error)
