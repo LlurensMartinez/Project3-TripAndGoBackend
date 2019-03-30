@@ -18,7 +18,7 @@ const userSchema = new Schema({
     type: Number,
     require : true
   },
-  imageUrl: {
+  imageURL: {
     type: String,
   },
   favTrips: {

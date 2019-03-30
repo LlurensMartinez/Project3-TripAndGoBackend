@@ -19,7 +19,8 @@ router.get('/', async (req, res, next) => {
 
 router.put('/edit', async (req, res, next) => {
   const { id } = req.session.currentUser._id;
-  const { name, username, password, newPassword, phoneNumber } = req.body;
+  const { name, username, password, newPassword, phoneNumber, imageURL } = req.body;
+  console.log(req.body)
   let updateProfile ={}
   console.log(password, newPassword)
   if(password && newPassword){
@@ -32,6 +33,7 @@ router.put('/edit', async (req, res, next) => {
         username,
         password: hashPass,
         phoneNumber,
+        imageURL
        }
        try {
         const updateProfileCreated = await User.findOneAndUpdate(id, updateProfile, {new:true});
@@ -48,6 +50,7 @@ router.put('/edit', async (req, res, next) => {
       name,
       username,
       phoneNumber,
+      imageURL
      }
      try {
       const updateProfileCreated = await User.findOneAndUpdate(id, updateProfile, {new:true});
