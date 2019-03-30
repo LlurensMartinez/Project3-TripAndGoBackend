@@ -65,6 +65,27 @@ router.get('/mytrips', async (req, res, next) => {
   }
 });
 
+// VIajes que el usuario se ha unido
+router.get('/mytripsjoin', async (req, res, next) => {
+  // let recorre = participants.map(x => {
+  //   return x;
+  // })
+
+  // console.log(recorre)
+  const joinTrips = await Trip.find({ participants: { $all: [req.session.currentUser._id] } })
+  console.log(joinTrips)
+  try {
+    if (!joinTrips) {
+      res.status(404);
+      res.json({ mesage: 'No hay viajes disponibles' })
+      return;
+    }
+    res.json(joinTrips);
+  } catch (error) {
+    next(error);
+  }
+});
+
 //Devuelve al FrontEnd un viaje
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
