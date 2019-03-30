@@ -13,7 +13,7 @@ router.post('/', async (req, res, next) => {
     res.json({ message: 'Debes rellenar todos los campos para poder crear el viaje.' })
     return;
   }
-console.log(req.session)
+  console.log(req.session)
   try {
     const newTrip = {
       owner: req.session.currentUser._id,
@@ -52,7 +52,7 @@ router.get('/', async (req, res, next) => {
 
 //Viajes creados por el usuario
 router.get('/mytrips', async (req, res, next) => {
-  const ownerTrips = await Trip.find({owner: req.session.currentUser._id})
+  const ownerTrips = await Trip.find({ owner: req.session.currentUser._id })
   try {
     if (!ownerTrips) {
       res.status(404);
@@ -85,9 +85,9 @@ router.get('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   const { id } = req.params;
   const deleteTrip = await Trip.findById(id)
-  if(deleteTrip.owner == req.session.currentUser._id){
+  if (deleteTrip.owner == req.session.currentUser._id) {
     const oneTrip = await Trip.findByIdAndDelete(id)
-  }else{
+  } else {
     return;
   }
   try {
@@ -118,9 +118,9 @@ router.put('/:id/edit', async (req, res, next) => {
   }
 
   try {
-    const updateTripCreated = await Trip.findByIdAndUpdate(id, updateTrip, {new:true});
+    const updateTripCreated = await Trip.joinjoinjoinfindByIdAndUpdate(id, updateTrip, { new: true });
     res.status(200)
-    res.json({message: 'Viaje editado'})
+    res.json({ message: 'Viaje editado' })
     // newTripCreated.save();
   } catch (error) {
     next(error)
@@ -129,17 +129,29 @@ router.put('/:id/edit', async (req, res, next) => {
 
 router.put('/:id/join', async (req, res, next) => {
   const { id } = req.params;
-  var idUser = mongoose.Types.ObjectId(req.session.currentUser._id);
-
+  let idUser = mongoose.Types.ObjectId(req.session.currentUser._id);
 
   try {
-    const updateTripCreated = await Trip.findByIdAndUpdate(id,{$push: {participants: idUser}}, {new:true});
+    const updateTripCreated = await Trip.findByIdAndUpdate(id, { $push: { participants: idUser } }, { new: true });
     res.status(200)
-    res.json({message: 'Usuario unido'})
+    res.json({ message: 'Usuario unido' })
+  } catch (error) {
+    next(error)
+  }
+
+});
+
+router.put('/:id/leave', async (req, res, next) => {
+  const { id } = req.params;
+  let idUser = mongoose.Types.ObjectId(req.session.currentUser._id);
+
+  try {
+    const updateTripCreated = await Trip.findByIdAndUpdate(id, { $pull: { participants: idUser } }, { new: true });
+    res.status(200)
+    res.json({ message: 'Usuario eliminado' })
     // newTripCreated.save();
   } catch (error) {
     next(error)
   }
 });
-
 module.exports = router;

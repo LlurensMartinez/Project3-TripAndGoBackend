@@ -43,28 +43,30 @@ router.post('/signup', isNotLoggedIn(), validationLoggin(), (req, res, next) => 
       username
     }, 'username')
     .then((userExists) => {
+      console.log(userExists)
       if (userExists) {
         const err = new Error('Unprocessable Entity');
         err.status = 422;
         err.statusMessage = 'username-not-unique';
         next(err);
+      }else{
+        const salt = bcrypt.genSaltSync(10);
+        const hashPass = bcrypt.hashSync(password, salt);
+  
+        const newUser = new User({
+          username,
+          password: hashPass,
+          name,
+          phoneNumber
+        });
+  
+        return newUser.save().then(() => {
+          // TODO delete password 
+          req.session.currentUser = newUser;
+          res.status(200).json(newUser);
+        });
       }
 
-      const salt = bcrypt.genSaltSync(10);
-      const hashPass = bcrypt.hashSync(password, salt);
-
-      const newUser = new User({
-        username,
-        password: hashPass,
-        name,
-        phoneNumber
-      });
-
-      return newUser.save().then(() => {
-        // TODO delete password 
-        req.session.currentUser = newUser;
-        res.status(200).json(newUser);
-      });
     })
     .catch(next);
 });
