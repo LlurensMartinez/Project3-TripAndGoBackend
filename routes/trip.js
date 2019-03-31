@@ -139,7 +139,7 @@ router.put('/:id/edit', async (req, res, next) => {
   }
 
   try {
-    const updateTripCreated = await Trip.joinjoinjoinfindByIdAndUpdate(id, updateTrip, { new: true });
+    const updateTripCreated = await Trip.findByIdAndUpdate(id, updateTrip, { new: true });
     res.status(200)
     res.json({ message: 'Viaje editado' })
     // newTripCreated.save();
