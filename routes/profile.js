@@ -18,7 +18,8 @@ router.get('/', async (req, res, next) => {
 });
 
 router.put('/edit', async (req, res, next) => {
-  const { id } = req.session.currentUser._id;
+  const id = req.session.currentUser._id;
+  
   const { name, username, password, newPassword, phoneNumber, imageURL } = req.body;
  
   let updateProfile ={}
@@ -36,7 +37,7 @@ router.put('/edit', async (req, res, next) => {
         imageURL
        }
        try {
-        const updateProfileCreated = await User.findOneAndUpdate(id, updateProfile, {new:true});
+        const updateProfileCreated = await User.findByIdAndUpdate(id, updateProfile, {new:true});
         res.status(200)
         res.json({message: 'PerfilEditado'})
       } catch (error) {
