@@ -20,7 +20,7 @@ router.get('/', async (req, res, next) => {
 router.put('/edit', async (req, res, next) => {
   const { id } = req.session.currentUser._id;
   const { name, username, password, newPassword, phoneNumber, imageURL } = req.body;
-  console.log(req.body)
+ 
   let updateProfile ={}
   console.log(password, newPassword)
   if(password && newPassword){
@@ -53,6 +53,7 @@ router.put('/edit', async (req, res, next) => {
       imageURL
      }
      try {
+       console.log("holaaaaa")
       const updateProfileCreated = await User.findOneAndUpdate(id, updateProfile, {new:true});
       res.status(200)
       res.json({message: 'PerfilEditado'})
