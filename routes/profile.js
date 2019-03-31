@@ -17,13 +17,27 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+//Devuelve los datos del participant
+router.get('/participants/:id', async (req, res, next) => {
+  const { id } = req.params;
+  const currentProfile = await User.findById(id)
+  try {
+    console.log(currentProfile)
+    res.status(200);
+    res.json(currentProfile)
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.put('/edit', async (req, res, next) => {
   const id = req.session.currentUser._id;
   
   const { name, username, password, newPassword, phoneNumber, imageURL } = req.body;
  
   let updateProfile ={}
-  console.log(password, newPassword)
+  
+  
   if(password && newPassword){
     if (bcrypt.compareSync(password, req.session.currentUser.password)) {
       console.log("contraseña editada")
@@ -47,6 +61,7 @@ router.put('/edit', async (req, res, next) => {
   }
   else{
     console.log("contraseña no editada")
+    console.log(req.body)
     updateProfile = {
       name,
       username,
@@ -55,7 +70,8 @@ router.put('/edit', async (req, res, next) => {
      }
      try {
        console.log("holaaaaa")
-      const updateProfileCreated = await User.findOneAndUpdate(id, updateProfile, {new:true});
+      const updateProfileCreated = await User.findByIdAndUpdate(id, updateProfile, {new:true});
+      console.log(updateProfileCreated)
       res.status(200)
       res.json({message: 'PerfilEditado'})
     } catch (error) {

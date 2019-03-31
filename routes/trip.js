@@ -149,7 +149,6 @@ router.put('/:id/edit', async (req, res, next) => {
 });
 
 // Unirse al viage
-
 router.put('/:id/join', async (req, res, next) => {
   const { id } = req.params;
   let idUser = mongoose.Types.ObjectId(req.session.currentUser._id);
