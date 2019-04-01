@@ -123,7 +123,7 @@ router.delete('/:id', async (req, res, next) => {
 
 router.put('/:id/edit', async (req, res, next) => {
   const { id } = req.params;
-  const { title, description, itinerary, date, dateInit, ageRange, numberPersons } = req.body;
+  const { title, description, itinerary, date, dateInit, ageRange, numberPersons, imageURL } = req.body;
   if (!title || !description || !itinerary || !date || !dateInit || !ageRange || !numberPersons) {
     res.status(400);
     res.json({ message: 'Debes rellenar todos los campos para poder crear el viaje.' })
@@ -137,6 +137,7 @@ router.put('/:id/edit', async (req, res, next) => {
     dateInit,
     ageRange,
     numberPersons,
+    imageURL
   }
 
   try {
