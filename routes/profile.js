@@ -20,8 +20,8 @@ router.get('/', async (req, res, next) => {
 //Devuelve los datos del participant
 router.get('/participants/:id', async (req, res, next) => {
   const { id } = req.params;
-  const currentProfile = await User.findById(id)
   try {
+    const currentProfile = await User.findById(id)
     console.log(currentProfile)
     res.status(200);
     res.json(currentProfile)
