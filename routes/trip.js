@@ -24,9 +24,11 @@ router.post('/', async (req, res, next) => {
       dateInit,
       ageRange,
       numberPersons,
-      imageURL 
+      imageURL,
+      participants: [req.session.currentUser._id]
     }
     const newTripCreated = await new Trip(newTrip);
+
     res.status(200)
     res.json(newTripCreated)
     newTripCreated.save();
@@ -90,7 +92,8 @@ router.get('/mytripsjoin', async (req, res, next) => {
 //Devuelve al FrontEnd un viaje
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
-  const oneTrip = await Trip.findById(id)
+  const oneTrip = await Trip.findById(id).populate("participants");
+  console.log(oneTrip)
   try {
     if (!oneTrip) {
       res.status(404);
