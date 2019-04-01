@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const Trip = require('../models/Trip');
 
 const { isLoggedIn } = require('../helpers/middlewares');
@@ -88,6 +88,25 @@ router.get('/mytripsjoin', async (req, res, next) => {
     next(error);
   }
 });
+
+
+// // VIajes que el usuario ha añadido a favs
+// router.get('/mytripsfav', async (req, res, next) => {
+//   const favTrips = await user.find({ favTrips: { $all: [req.session.currentUser._id] } })
+//   console.log(favTrips)
+//   try {
+//     if (!favTrips) {
+//       res.status(404);
+//       res.json({ mesage: 'No hay favoritos' })
+//       return;
+//     }
+//     res.json(favTrips);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+
 
 //Devuelve al FrontEnd un viaje
 router.get('/:id', async (req, res, next) => {
