@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const ObjectId = Schema.Types.ObjectId;
 
 const userSchema = new Schema({
   username: {
@@ -21,9 +22,10 @@ const userSchema = new Schema({
   imageURL: {
     type: String,
   },
-  favTrips: {
-    type:[String]
-  }
+  favTrips: [{
+    type: ObjectId,
+    ref: 'Trip',
+  }]
 }, {
   timestamps: {
     createdAt: 'created_at',
