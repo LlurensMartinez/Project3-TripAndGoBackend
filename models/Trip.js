@@ -16,7 +16,7 @@ const tripSchema = new Schema({
     type: String,
     require: true
   },
-  imageUrl: {
+  imageURL: {
     type: String,
   },
   ageRange: {

@@ -6,7 +6,7 @@ const Trip = require('../models/Trip');
 const { isLoggedIn } = require('../helpers/middlewares');
 
 router.post('/', async (req, res, next) => {
-  const { title, description, itinerary, date, dateInit, ageRange, numberPersons } = req.body;
+  const { title, description, itinerary, date, dateInit, ageRange, numberPersons, imageURL  } = req.body;
 
   if (!title || !description || !itinerary || !date || !dateInit || !ageRange || !numberPersons) {
     res.status(400);
@@ -24,6 +24,7 @@ router.post('/', async (req, res, next) => {
       dateInit,
       ageRange,
       numberPersons,
+      imageURL 
     }
     const newTripCreated = await new Trip(newTrip);
     res.status(200)
