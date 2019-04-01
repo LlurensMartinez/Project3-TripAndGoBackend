@@ -6,8 +6,9 @@ const { isLoggedIn } = require('../helpers/middlewares');
 
 
 //Devuelve los datos del profile
-router.get('/', async (req, res, next) => {
-  const id = req.session.currentUser._id
+router.get('/:id', async (req, res, next) => {
+  // const id = req.session.currentUser._id
+  const id = req.params.id
   const currentProfile = await User.findById(id)
   try {
     res.status(200);
@@ -17,18 +18,18 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-//Devuelve los datos del participant
-router.get('/participants/:id', async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const currentProfile = await User.findById(id)
-    console.log(currentProfile)
-    res.status(200);
-    res.json(currentProfile)
-  } catch (error) {
-    next(error);
-  }
-});
+// //Devuelve los datos del participant
+// router.get('/participants/:id', async (req, res, next) => {
+//   const { id } = req.params;
+//   try {
+//     const currentProfile = await User.findById(id)
+//     console.log(currentProfile)
+//     res.status(200);
+//     res.json(currentProfile)
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 router.put('/edit', async (req, res, next) => {
   const id = req.session.currentUser._id;
@@ -40,7 +41,6 @@ router.put('/edit', async (req, res, next) => {
   
   if(password && newPassword){
     if (bcrypt.compareSync(password, req.session.currentUser.password)) {
-      console.log("contraseña editada")
       const salt = bcrypt.genSaltSync(10);
       const hashPass = bcrypt.hashSync(newPassword, salt);
       updateProfile = {
@@ -60,7 +60,6 @@ router.put('/edit', async (req, res, next) => {
     }
   }
   else{
-    console.log("contraseña no editada")
     console.log(req.body)
     updateProfile = {
       name,
@@ -69,7 +68,6 @@ router.put('/edit', async (req, res, next) => {
       imageURL
      }
      try {
-       console.log("holaaaaa")
       const updateProfileCreated = await User.findByIdAndUpdate(id, updateProfile, {new:true});
       console.log(updateProfileCreated)
       res.status(200)
