@@ -18,10 +18,9 @@ router.post('/login', isNotLoggedIn(), validationLoggin(), (req, res, next) => {
     })
     .then((user) => {
       if (!user) {
-        const err = new Error('Not Found');
-        err.status = 404;
-        err.statusMessage = 'Not Found';
-        next(err)
+        return res.status(404).json({
+          error: 'Usuario o contraseña incorrectos'
+        });
       }
       if (bcrypt.compareSync(password, user.password)) {
         req.session.currentUser = user;
@@ -30,6 +29,7 @@ router.post('/login', isNotLoggedIn(), validationLoggin(), (req, res, next) => {
         const err = new Error('Unauthorized');
         err.status = 401;
         err.statusMessage = 'Unauthorized';
+        res.json({message: 'Usuario o contraseña incorrectos'})
         next(err);
       }
     })
@@ -45,10 +45,14 @@ router.post('/signup', isNotLoggedIn(), validationLoggin(), (req, res, next) => 
     .then((userExists) => {
       console.log(userExists)
       if (userExists) {
-        const err = new Error('Unprocessable Entity');
-        err.status = 422;
-        err.statusMessage = 'username-not-unique';
-        next(err);
+        // const err = new Error('Unprocessable Entity');
+        // err.status = 422;
+        // err.statusMessage = 'username-not-unique';
+        // next(err);
+        console.log('pr')
+        return res.status(404).json({
+          error: 'Dirección de correo electrónico existente'
+        });
       }else{
         const salt = bcrypt.genSaltSync(10);
         const hashPass = bcrypt.hashSync(password, salt);
