@@ -49,10 +49,6 @@ router.post('/signup', isNotLoggedIn(), validationLoggin(), (req, res, next) => 
     .then((userExists) => {
       console.log(userExists)
       if (userExists) {
-        // const err = new Error('Unprocessable Entity');
-        // err.status = 422;
-        // err.statusMessage = 'username-not-unique';
-        // next(err);
         return res.status(404).json({
           error: 'Dirección de correo electrónico existente'
         });

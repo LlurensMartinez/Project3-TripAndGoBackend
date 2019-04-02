@@ -24,10 +24,12 @@ router.get('/favoritos', async (req, res, next) => {
 
 // Añadir el viage a favoritos
 router.put('/:id/addfavs', async (req, res, next) => {
-  let idTrip = req.params.id;
+  let idTrip = mongoose.Types.ObjectId(req.params.id);
   let {_id} = req.session.currentUser;
+  
+
   try {
-    const tripAddFavs = await User.findByIdAndUpdate(_id, { $push: { favTrips: ObjectId(idTrip) } }, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(_id, { $push: { favTrips: idTrip } }, { new: true });
     res.status(200)
     res.json({ message: 'Usuario unido' })
   } catch (error) {
@@ -36,6 +38,20 @@ router.put('/:id/addfavs', async (req, res, next) => {
 
 });
 
+router.put('/:id/deletefavs', async (req, res, next) => {
+  let idTrip = mongoose.Types.ObjectId(req.params.id);
+  let {_id} = req.session.currentUser;
+  
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(_id, { $pull: { favTrips: idTrip  } }, { new: true });
+    res.status(200)
+    res.json({ message: 'Usuario unido' })
+  } catch (error) {
+    next(error)
+  }
+
+});
 
 //Devuelve los datos del profile
 router.get('/:id', async (req, res, next) => {
