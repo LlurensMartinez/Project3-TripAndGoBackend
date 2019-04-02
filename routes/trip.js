@@ -13,7 +13,6 @@ router.post('/', async (req, res, next) => {
     res.json({ message: 'Debes rellenar todos los campos para poder crear el viaje.' })
     return;
   }
-  console.log(req.session)
   try {
     const newTrip = {
       owner: req.session.currentUser._id,
@@ -70,13 +69,8 @@ router.get('/mytrips', async (req, res, next) => {
 
 // VIajes que el usuario se ha unido
 router.get('/mytripsjoin', async (req, res, next) => {
-  // let recorre = participants.map(x => {
-  //   return x;
-  // })
 
-  // console.log(recorre)
   const joinTrips = await Trip.find({ participants: { $all: [req.session.currentUser._id] } })
-  console.log(joinTrips)
   try {
     if (!joinTrips) {
       res.status(404);
@@ -89,30 +83,10 @@ router.get('/mytripsjoin', async (req, res, next) => {
   }
 });
 
-
-// // VIajes que el usuario ha añadido a favs
-// router.get('/mytripsfav', async (req, res, next) => {
-//   const favTrips = await user.find({ favTrips: { $all: [req.session.currentUser._id] } })
-//   console.log(favTrips)
-//   try {
-//     if (!favTrips) {
-//       res.status(404);
-//       res.json({ mesage: 'No hay favoritos' })
-//       return;
-//     }
-//     res.json(favTrips);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
-
-
 //Devuelve al FrontEnd un viaje
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
   const oneTrip = await Trip.findById(id).populate("participants");
-  console.log(oneTrip)
   try {
     if (!oneTrip) {
       res.status(404);
@@ -135,7 +109,6 @@ router.delete('/:id', async (req, res, next) => {
     return;
   }
   try {
-    // if()
     res.status(200);
     res.json({ message: 'Viaje eliminado' });
   } catch (error) {
