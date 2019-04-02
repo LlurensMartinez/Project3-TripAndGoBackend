@@ -79,9 +79,18 @@ router.put('/edit', async (req, res, next) => {
         next(error)
       }
     }
+    else {
+      return res.status(400).json({
+        error: 'La contraseña actual es incorrecta'
+      });
+    }
   }
   else{
-    console.log(req.body)
+    if (!name || !username || !phoneNumber ) {
+      return res.status(400).json({
+        error: 'Los campos nombre, correo electronico y teléfono son obligatorios'
+      });
+    }
     updateProfile = {
       name,
       username,

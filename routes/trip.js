@@ -123,9 +123,9 @@ router.put('/:id/edit', async (req, res, next) => {
   const { id } = req.params;
   const { title, description, itinerary, imageURL } = req.body;
   if (!title || !description || !itinerary ) {
-    res.status(400);
-    res.json({ message: 'Debes rellenar todos los campos para poder crear el viaje.' })
-    return;
+    return res.status(400).json({
+      error: 'Debes rellenar todos los campos'
+    });
   }
   const updateTrip = {
     title,
