@@ -9,7 +9,7 @@ router.post('/', async (req, res, next) => {
   const { title, description, itinerary, date, dateInit, ageRange, numberPersons, imageURL  } = req.body;
 
   if (!title || !description || !itinerary || !date || !dateInit || !ageRange || !numberPersons) {
-    // res.status(400);
+    // res.status(402);
     // res.json({ message: 'Debes rellenar todos los campos para poder crear el viaje.' })
     // return;
     return res.status(400).json({
