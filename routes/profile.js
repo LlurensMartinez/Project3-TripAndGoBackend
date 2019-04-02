@@ -11,7 +11,6 @@ router.get('/favoritos', async (req, res, next) => {
   
   try {
     const oneUser = await User.findById(_id).populate("favTrips");
-    console.log("holaaa",oneUser);
     if (!oneUser) {
       res.status(404);
       res.json({ mesage: 'La información del viaje no está disponible' })
