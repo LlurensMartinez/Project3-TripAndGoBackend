@@ -19,17 +19,16 @@ router.post('/login', isNotLoggedIn(), validationLoggin(), (req, res, next) => {
     .then((user) => {
       if (!user) {
         return res.status(404).json({
-          error: 'Usuario o contraseña incorrectos'
+          error: 'Correo electrónico o contraseña incorrectos'
         });
       }
       if (bcrypt.compareSync(password, user.password)) {
         req.session.currentUser = user;
         return res.status(200).json(user);
       } else {
-        const err = new Error('Unauthorized');
-        err.status = 401;
-        err.statusMessage = 'Unauthorized';
-        res.json({message: 'Usuario o contraseña incorrectos'})
+        return res.status(401).json({
+          error: 'Correo electrónico o contraseña incorrectos'
+        });
         next(err);
       }
     })
