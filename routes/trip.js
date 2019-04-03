@@ -11,7 +11,7 @@ router.post('/', async (req, res, next) => {
       error: 'Debes rellenar todos los campos'
     });
   }
-  if(dateInit>date){
+  if(dateInit>=date){
     return res.status(400).json({
       error: 'La fecha de inicio tiene que ser anterior a la fecha de fin'
     });
@@ -73,8 +73,9 @@ router.get('/mytrips', async (req, res, next) => {
 // VIajes que el usuario se ha unido
 router.get('/mytripsjoin', async (req, res, next) => {
 
-  const joinTrips = await Trip.find({ participants: { $all: [req.session.currentUser._id] } })
   try {
+    const joinTrips = await Trip.find({ participants: { $all: [req.session.currentUser._id] } })
+    console.log(joinTrips)
     if (!joinTrips) {
       res.status(404);
       res.json({ mesage: 'No hay viajes disponibles' })
@@ -172,4 +173,7 @@ router.put('/:id/leave', async (req, res, next) => {
     next(error)
   }
 });
+
+
+
 module.exports = router;
