@@ -2,9 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
-const { isLoggedIn } = require('../helpers/middlewares');
 const mongoose = require('mongoose');
-const {ObjectId}= mongoose.Types;
 
 router.get('/favoritos', async (req, res, next) => {
   const { _id } = req.session.currentUser;
@@ -29,7 +27,7 @@ router.put('/:id/addfavs', async (req, res, next) => {
   
 
   try {
-    const updatedUser = await User.findByIdAndUpdate(_id, { $push: { favTrips: idTrip } }, { new: true });
+    await User.findByIdAndUpdate(_id, { $push: { favTrips: idTrip } }, { new: true });
     res.status(200)
     res.json({ message: 'Usuario unido' })
   } catch (error) {
@@ -42,9 +40,9 @@ router.put('/:id/deletefavs', async (req, res, next) => {
   let idTrip = mongoose.Types.ObjectId(req.params.id);
   let {_id} = req.session.currentUser;
   
-
+  // updated user
   try {
-    const updatedUser = await User.findByIdAndUpdate(_id, { $pull: { favTrips: idTrip  } }, { new: true });
+    await User.findByIdAndUpdate(_id, { $pull: { favTrips: idTrip  } }, { new: true });
     res.status(200)
     res.json({ message: 'Usuario unido' })
   } catch (error) {
@@ -88,8 +86,9 @@ router.put('/edit', async (req, res, next) => {
         imageURL,
         description
        }
+       // Update Profile Created
        try {
-        const updateProfileCreated = await User.findByIdAndUpdate(id, updateProfile, {new:true});
+        await User.findByIdAndUpdate(id, updateProfile, {new:true});
         res.status(200)
         res.json({message: 'PerfilEditado'})
       } catch (error) {
@@ -115,9 +114,9 @@ router.put('/edit', async (req, res, next) => {
       imageURL,
       description
      }
+     // Update Profile Created
      try {
-      const updateProfileCreated = await User.findByIdAndUpdate(id, updateProfile, {new:true});
-      console.log(updateProfileCreated)
+      await User.findByIdAndUpdate(id, updateProfile, {new:true});
       res.status(200)
       res.json({message: 'PerfilEditado'})
     } catch (error) {

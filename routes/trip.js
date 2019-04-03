@@ -3,8 +3,6 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Trip = require('../models/Trip');
 
-const { isLoggedIn } = require('../helpers/middlewares');
-
 router.post('/', async (req, res, next) => {
   const { title, description, itinerary, date, dateInit, ageRange, numberPersons, imageURL  } = req.body;
 
@@ -136,11 +134,11 @@ router.put('/:id/edit', async (req, res, next) => {
     imageURL
   }
 
+  // Update Trip Created
   try {
-    const updateTripCreated = await Trip.findByIdAndUpdate(id, updateTrip, { new: true });
+    await Trip.findByIdAndUpdate(id, updateTrip, { new: true });
     res.status(200)
     res.json({ message: 'Viaje editado' })
-    // newTripCreated.save();
   } catch (error) {
     next(error)
   }
@@ -151,8 +149,9 @@ router.put('/:id/join', async (req, res, next) => {
   const { id } = req.params;
   let idUser = mongoose.Types.ObjectId(req.session.currentUser._id);
 
+  // Update Trip Created
   try {
-    const updateTripCreated = await Trip.findByIdAndUpdate(id, { $push: { participants: idUser } }, { new: true });
+    await Trip.findByIdAndUpdate(id, { $push: { participants: idUser } }, { new: true });
     res.status(200)
     res.json({ message: 'Usuario unido' })
   } catch (error) {
@@ -166,10 +165,9 @@ router.put('/:id/leave', async (req, res, next) => {
   let idUser = mongoose.Types.ObjectId(req.session.currentUser._id);
 
   try {
-    const updateTripCreated = await Trip.findByIdAndUpdate(id, { $pull: { participants: idUser } }, { new: true });
+    await Trip.findByIdAndUpdate(id, { $pull: { participants: idUser } }, { new: true });
     res.status(200)
     res.json({ message: 'Usuario eliminado' })
-    // newTripCreated.save();
   } catch (error) {
     next(error)
   }

@@ -37,7 +37,6 @@ router.post('/login', isNotLoggedIn(), validationLoggin(), (req, res, next) => {
 
 router.post('/signup', isNotLoggedIn(), validationLoggin(), (req, res, next) => {
   const { username, password, name, phoneNumber, imageURL } = req.body;
-
   if (!username || !password || !name || !phoneNumber) {
     return res.status(404).json({
       error: 'Debes rellenar todos los campos'
