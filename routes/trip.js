@@ -13,7 +13,7 @@ router.post('/', async (req, res, next) => {
       error: 'Debes rellenar todos los campos'
     });
   }
-  if(dateInit>date){
+  if(dateInit>=date){
     return res.status(400).json({
       error: 'La fecha de inicio tiene que ser anterior a la fecha de fin'
     });
