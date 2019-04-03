@@ -71,7 +71,7 @@ router.get('/:id', async (req, res, next) => {
 router.put('/edit', async (req, res, next) => {
   const id = req.session.currentUser._id;
   
-  const { name, username, password, newPassword, phoneNumber, imageURL } = req.body;
+  const { name, username, password, newPassword, phoneNumber, imageURL, description } = req.body;
  
   let updateProfile ={}
   
@@ -85,7 +85,8 @@ router.put('/edit', async (req, res, next) => {
         username,
         password: hashPass,
         phoneNumber,
-        imageURL
+        imageURL,
+        description
        }
        try {
         const updateProfileCreated = await User.findByIdAndUpdate(id, updateProfile, {new:true});
@@ -111,7 +112,8 @@ router.put('/edit', async (req, res, next) => {
       name,
       username,
       phoneNumber,
-      imageURL
+      imageURL,
+      description
      }
      try {
       const updateProfileCreated = await User.findByIdAndUpdate(id, updateProfile, {new:true});

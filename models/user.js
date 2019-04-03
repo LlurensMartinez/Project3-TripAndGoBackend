@@ -19,6 +19,9 @@ const userSchema = new Schema({
     type: Number,
     require : true
   },
+  description: {
+    type: String,
+  },
   imageURL: {
     type: String,
   },
