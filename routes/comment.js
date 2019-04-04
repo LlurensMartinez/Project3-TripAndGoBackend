@@ -7,10 +7,11 @@ const Comment = require('../models/Comment')
 
 // comentarios del Viaje
 router.get('/:id/tripcomments', async (req, res, next) => {
-  const commentsTrips = await Comment.find({ trip: req.session.currentUser._id })
+  const { id } = req.params
+  const commentsTrips = await Comment.find({ trip: id }).populate('creator')
   try {
     if (!commentsTrips) {
-      res.status(404)
+      res.status(200)
       res.json({ mesage: 'No hay comentarios' })
       return
     }
@@ -19,6 +20,7 @@ router.get('/:id/tripcomments', async (req, res, next) => {
     next(error)
   }
 })
+// Ruyta para crear el comentario
 router.post('/', async (req, res, next) => {
   const { id, text } = req.body
   const { _id } = req.session.currentUser

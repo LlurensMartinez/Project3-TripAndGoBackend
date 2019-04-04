@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const ObjectId = Schema.Types.ObjectId
 
 const tripSchema = new Schema({
   owner: {
@@ -17,7 +17,7 @@ const tripSchema = new Schema({
     require: true
   },
   imageURL: {
-    type: String,
+    type: String
   },
   ageRange: {
     type: String,
@@ -49,15 +49,15 @@ const tripSchema = new Schema({
   },
   participants: [{
     type: ObjectId,
-    ref: 'User',
+    ref: 'User'
   }]
 }, {
-    timestamps: {
-      createdAt: 'created_at',
-      updatedAt: 'updated_at'
-    },
-  });
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  }
+})
 
-const Trip = mongoose.model('Trip', tripSchema);
+const Trip = mongoose.model('Trip', tripSchema)
 
-module.exports = Trip;
+module.exports = Trip
